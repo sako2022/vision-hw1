@@ -99,7 +99,6 @@ void clamp_image(image im)
     } 
 }
 
-
 // These might be handy
 float three_way_max(float a, float b, float c)
 {
@@ -165,35 +164,91 @@ void hsv_to_rgb(image im)
             float S = get_pixel(im, j, i, 1);
             float V = get_pixel(im, j, i, 2);
 
-            float m = V * (1 - S);
             float C = S * V;
+            float m = 0;
+            if (V != C)
+                m = V - C;
             float H_ = 6 * H;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-            float R = 0;
-            float G = 0;
-            float B = 0;
 
-            if ((H_ >= 0) && (H_ < 2))
+            float R = V;
+            float G = V;
+            float B = V;
+
+            if ((H_ > 0) && (H_ < 1))
             {
                 R = V;
                 B = m;
-                G = 6 * H_ * C + m;
+                G = H_ * C + m;
             }
-            else if ((H_ >= 2) && (H_ < 4))
+            else if (H_ == 1)
+            {
+                R = V;
+                G = V;
+                B = m;
+            }
+            else if ((H_ > 1) && (H_ < 2))
             {
                 G = V;
+                B = m;
+                R = (((H_ - 2) * C) - m) * -1;
+            }
+            else if (H_ == 2)
+            {
                 R = m;
-                B = 6 * (H_ - 2) * C + m;
+                G = V;
+                B = m;
+            }
+            else if ((H_ > 2) && (H_ < 3))
+            {
+                R = m;
+                G = V;
+                B = (H_ - 2) * C + m;
+            }
+            else if (H_ == 3)
+            {
+                R = m;
+                G = V;
+                B = V;
+            }
+            else if ((H_ > 3) && (H_ < 4))
+            {
+                R = m;
+                B = V;
+                G = (((H_ - 4) * C) - m) * -1;
+            }
+            else if (H_ == 4)
+            {
+                R = m;
+                G = m;
+                B = V;
+            }
+            else if ((H_ > 4) && (H_ < 5))
+            {
+                G = m;
+                B = V;
+                R = (H_ - 4) * C + m;
+            }
+            else if (H_ == 5)
+            {
+                R = V;
+                G = m;
+                B = V;
+            }
+            else if ((H_ > 5) && (H_ < 6))
+            {
+                R = V;
+                B = m;
+                G = ((((H_ / 6) - 1) * 6 * C) - m) * -1;
             }
             else
             {
-                B = V;
+                R = V;
                 G = m;
-                R = 6 * (H_ - 4) * C + m;
+                B = m;
             }
             set_pixel(im, j, i, 0, R);
-            set_pixel(im, j, i, 0, G);
-            set_pixel(im, j, i, 0, B);
+            set_pixel(im, j, i, 1, G);
+            set_pixel(im, j, i, 2, B);
         }
     }
 }

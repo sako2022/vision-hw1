@@ -33,6 +33,8 @@ image make_box_filter(int w)
 image convolve_image(image im, image filter, int preserve)
 {
     // TODO
+    image box_filter = make_box_filter(preserve);
+    
     return make_image(1,1,1);
 }
 
