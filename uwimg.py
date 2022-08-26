@@ -146,14 +146,59 @@ convolve_image.restype = IMAGE
 
 
 if __name__ == "__main__":
-    im = load_image("data/dogsmall.jpg")
-    a = nn_resize(im, im.w*4, im.h*4)
-    save_image(a, "dog4x-nn")
+    # im = load_image("data/dogsmall.jpg")
+    # a = nn_resize(im, im.w*4, im.h*4)
+    # save_image(a, "dog4x-nn")
 
-    im = load_image("data/dogsmall.jpg")
-    a = bilinear_resize(im, im.w*4, im.h*4)
-    save_image(a, "dog4x-bl")
+    # im = load_image("data/dogsmall.jpg")
+    # a = bilinear_resize(im, im.w*4, im.h*4)
+    # save_image(a, "dog4x-bl")
+
+    # im = load_image("data/dog.jpg")
+    # a = nn_resize(im, im.w//7, im.h//7)
+    # save_image(a, "dog7th-bl")
 
     im = load_image("data/dog.jpg")
-    a = nn_resize(im, im.w//7, im.h//7)
-    save_image(a, "dog7th-bl")
+    # f = make_box_filter(7)
+    f = make_highpass_filter();
+    for i in range(9):
+        print(f.data[i]);
+    blur = convolve_image(im, f, 1)
+    save_image(blur, "dog_highpass")
+
+    im = load_image("data/dog.jpg")
+    # f = make_box_filter(7)
+    f = make_highpass_filter();
+    blur = convolve_image(im, f, 1)
+    thumb = nn_resize(blur, blur.w//7, blur.h//7)
+    save_image(thumb, "dogthumb_highpass")
+
+    im = load_image("data/dog.jpg")
+    # f = make_box_filter(7)
+    f = make_sharpen_filter();
+    for i in range(9):
+        print(f.data[i]);
+    blur = convolve_image(im, f, 1)
+    save_image(blur, "dog_sharpen")
+
+    im = load_image("data/dog.jpg")
+    # f = make_box_filter(7)
+    f = make_sharpen_filter();
+    blur = convolve_image(im, f, 1)
+    thumb = nn_resize(blur, blur.w//7, blur.h//7)
+    save_image(thumb, "dogthumb_sharpen")
+
+    im = load_image("data/dog.jpg")
+    # f = make_box_filter(7)
+    f = make_emboss_filter();
+    for i in range(9):
+        print(f.data[i]);
+    blur = convolve_image(im, f, 1)
+    save_image(blur, "dog_emboss")
+
+    im = load_image("data/dog.jpg")
+    # f = make_box_filter(7)
+    f = make_emboss_filter();
+    blur = convolve_image(im, f, 1)
+    thumb = nn_resize(blur, blur.w//7, blur.h//7)
+    save_image(thumb, "dogthumb_emboss")
